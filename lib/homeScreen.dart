@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -87,12 +88,34 @@ class _WebViewExampleState extends State<WebViewExample> {
               _toasterJavascriptChannel(context),
             ].toSet(),
             navigationDelegate: (NavigationRequest request) {
-              if (request.url.startsWith('https://www.youtube.com/')) {
+              if (request.url.contains("mailto:")) {
                 print('blocking navigation to $request}');
+                launch(request.url);
                 return NavigationDecision.prevent;
               }
-              if (request.url.startsWith('https://flutter.dev/docs')) {
+              if (request.url.contains("whatsapp:")) {
                 print('blocking navigation to $request}');
+                launch(request.url);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains("sms:")) {
+                print('blocking navigation to $request}');
+                launch(request.url);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains("tel:")) {
+                print('blocking navigation to $request}');
+                launch(request.url);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains("https://api.whatsapp.com/send")) {
+                print('blocking navigation to $request}');
+                launch(request.url);
+                return NavigationDecision.prevent;
+              }
+              if (request.url.contains("https://wa.me/")) {
+                print('blocking navigation to $request}');
+                launch(request.url);
                 return NavigationDecision.prevent;
               }
               print('allowing navigation to $request');
